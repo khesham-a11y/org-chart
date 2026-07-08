@@ -279,6 +279,10 @@
   a.contact:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   .contact.empty{ color:var(--faint); border-style:dashed; cursor:default; }
   .contact.empty svg{ color:var(--faint); }
+  
+  a.contact.whatsapp{ color:#fff; background:#25D366; border-color:#25D366; }
+  a.contact.whatsapp:hover{ background:#1ebe5d; border-color:#1ebe5d; }
+  a.contact.whatsapp svg{ color:#fff; }
 
   .foot{ display:flex; align-items:center; margin-top:11px; }
   .tenure{
@@ -535,6 +539,7 @@ function photoUrl(raw){
 const ICON={
   mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3 5 9 7 9-7"/></svg>',
   phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h3l1.5 5L7 9.5a13 13 0 0 0 7.5 7.5L16 15l5 1.5V3h-3"/></svg>',
+  whatsapp:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378l-.361.214-3.741-.981.998 3.645-.235.374a9.86 9.86 0 001.51 5.761c.795 1.314 1.928 2.523 3.34 3.462 1.07.676 2.323 1.196 3.634 1.48 1.997.652 4.163.273 6.015-.752 1.567-.79 2.845-2.162 3.658-3.662 1.02-1.861.818-4.908-.682-6.31-1.138-.95-2.641-.активности-4.126-1.045-2.079-.574-4.386.091-5.82 1.543-.888.814-1.504 1.898-1.753 3.063" /></svg>',
   up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 6-6 6 6"/></svg>',
   clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   minus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12"/></svg>',
@@ -574,6 +579,9 @@ function cardHTML(p,s){
   const phoneC=ph
     ?`<a class="contact" href="tel:${esc(ph.tel)}">${ICON.phone}<span class="val">${esc(ph.disp)}</span></a>`
     :`<span class="contact empty">${ICON.phone}<span class="val">No mobile</span></span>`;
+  const waC=ph
+    ?`<a class="contact whatsapp" href="https://wa.me/${esc(ph.tel.replace(/\+/,''))}" target="_blank" title="Chat on WhatsApp">${ICON.whatsapp}<span class="val">WhatsApp</span></a>`
+    :"";
   const upLabel=isRoot&&p.reports?`<div class="reports-up">${ICON.up}<span>Reports to ${esc(p.reports)}</span></div>`:"";
   let pill="";
   if(!vac){
@@ -599,7 +607,7 @@ function cardHTML(p,s){
       <div class="pname${vac?' vac':''}" title="${esc(p.name)}">${esc(p.name||"To be filled")}</div>
       <div class="ptitle" title="${esc(p.title)}">${esc(p.title)}</div>
     </div></div>
-    <div class="contacts">${mailC}${phoneC}</div>
+    <div class="contacts">${mailC}${phoneC}${waC}</div>
     ${footer}${toggle}
   </div></div>`;
 }
