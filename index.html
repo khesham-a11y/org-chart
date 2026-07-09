@@ -138,14 +138,21 @@
 
   .canvas{
     flex:1 1 auto; overflow:auto; position:relative;
-    background-color:var(--bg);
-    background-image:radial-gradient(var(--grid) 1.2px,transparent 1.2px);
-    background-size:24px 24px;
+    background-image:url('assets/noon-bg.jpg');
+    background-attachment:fixed;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:cover;
+  }
+  .canvas::before{
+    content:''; position:fixed; inset:0; background:rgba(255,255,255,0.75);
+    pointer-events:none; z-index:1;
   }
   .stage{
     min-width:max-content; min-height:max-content;
     padding:50px 80px 110px;
     display:flex; justify-content:center;
+    position:relative; z-index:2;
   }
 
   .root-col{ display:flex; flex-direction:column; align-items:center; }
@@ -279,7 +286,7 @@
   a.contact:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   .contact.empty{ color:var(--faint); border-style:dashed; cursor:default; }
   .contact.empty svg{ color:var(--faint); }
-  
+
   a.contact.whatsapp{ color:#fff; background:#25D366; border-color:#25D366; }
   a.contact.whatsapp:hover{ background:#1ebe5d; border-color:#1ebe5d; }
   a.contact.whatsapp svg{ color:#fff; }
@@ -521,7 +528,7 @@ function esc(s){return(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>'
 const AV=["#3E5C76","#5B7B7A","#7A5C7E","#6E7C4E","#9A6A4F","#4E5D8C","#7C6A3C","#566273"];
 function hash(s){let h=0;for(let i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))>>>0;}return h;}
 function initials(n){const w=n.trim().split(/\s+/).filter(Boolean);if(!w.length)return"?";return((w[0][0]||"")+(w.length>1?w[w.length-1][0]:"")).toUpperCase();}
-function phone(r){const d=(r||"").replace(/[^\d]/g,"");if(!d)return null;let disp="+"+d;if(d.length===12&&d.startsWith("20"))disp=`+20 ${d.slice(2,5)} ${d.slice(5,8)} ${d.slice(8)}`;return{tel:"+"+d,disp};}
+function phone(r){const d=(r||"").replace(/[^\d]/g,"");if(!d)return null;let disp="+"+d;if(d.length===12&&d.startsWith("20"))disp=`+20 ${d.slice(2,5)} ${d.slice(5,8)} ${d.slice(8)}`;return{tel:"+20"+d.slice(2),disp};}
 
 function photoUrl(raw){
   if(!raw) return null;
@@ -538,8 +545,8 @@ function photoUrl(raw){
 
 const ICON={
   mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3 5 9 7 9-7"/></svg>',
-  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h3l1.5 5L7 9.5a13 13 0 0 0 7.5 7.5L16 15l5 1.5V3h-3"/></svg>',
-  whatsapp:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378l-.361.214-3.741-.981.998 3.645-.235.374a9.86 9.86 0 001.51 5.761c.795 1.314 1.928 2.523 3.34 3.462 1.07.676 2.323 1.196 3.634 1.48 1.997.652 4.163.273 6.015-.752 1.567-.79 2.845-2.162 3.658-3.662 1.02-1.861.818-4.908-.682-6.31-1.138-.95-2.641-.активности-4.126-1.045-2.079-.574-4.386.091-5.82 1.543-.888.814-1.504 1.898-1.753 3.063" /></svg>',
+  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h3l1.5 5L7 9.5a13 13 0 0 0 7.5 7.5L16 15l5 1.5V3H5Z"/></svg>',
+  whatsapp:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.501-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.195 1.867.118.57-.085 1.758-.719 2.006-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.006a9.87 9.87 0 00-4.98 1.429 9.821 9.821 0 00-3.183 3.294 9.823 9.823 0 00-.997 4.752 9.823 9.823 0 004.564 8.312 9.819 9.819 0 004.773 1.18h.006a9.826 9.826 0 009.823-9.826c0-2.641-1.035-5.126-2.918-6.993a9.825 9.825 0 00-6.996-2.898M2.39 21.558a.5.5 0 00.682-.667l-1.43-3.038a9.823 9.823 0 01-.52-4.853 9.823 9.823 0 011.434-4.662 9.82 9.82 0 013.183-3.294 9.87 9.87 0 014.98-1.429c2.641 0 5.127 1.035 6.993 2.918 1.867 1.884 2.898 4.369 2.898 6.993 0 5.4-4.383 9.823-9.823 9.823a9.82 9.82 0 01-4.773-1.18 9.823 9.823 0 01-4.025-3.019l-1.43-3.039"/></svg>',
   up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 6-6 6 6"/></svg>',
   clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   minus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12"/></svg>',
