@@ -138,7 +138,7 @@
 
   .canvas{
     flex:1 1 auto; overflow:auto; position:relative;
-    background-image:url('assets/noon-bg.jpg');
+    background-image:url('https://raw.githubusercontent.com/khesham-a11y/org-chart/main/assets/noon-bg.jpg');
     background-attachment:fixed;
     background-position:center;
     background-repeat:no-repeat;
@@ -519,7 +519,7 @@ function tenure(j){
   const parts=[];
   if(y>0){parts.push(y+(y===1?" yr":" yrs"));if(mo>0)parts.push(mo+(mo===1?" mo":" mos"));}
   else if(mo>0){parts.push(mo+(mo===1?" mo":" mos"));if(day>0)parts.push(day+(day===1?" day":" days"));}
-  else{parts.push(day===0?"Joined today":day+(day===1?" day":" days"));}
+  else{parts.push(day===0?"Joined today":day===1?"1 day":""+day+" days");}
   return{text:parts.join(" "),title:"Joined "+fmtLong(d),cls:"ok"};
 }
 
